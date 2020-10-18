@@ -3,7 +3,63 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Document</title>
+    <title>Tarefas</title>
+    <link rel="shortcut icon" href="imgs/i2.png" type="png">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.1.1/css/all.css" integrity="sha384-O8whS3fhG2OnA5Kas0Y9l3cfpmYjapjI0E4theH4iuMD+pLhbf6JI0jIMfYcK3yZ" crossorigin="anonymous">
+    <link href="https://unpkg.com/tailwindcss@^1.0/dist/tailwind.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
   </head>
-  <body></body>
+
+  <body>
+    <div class="mx-auto" id="app">
+      <h1 class="text-3xl">Tarefas</h1>
+      <input v-model="field" class="px-3 rounded-full border" type="text" id="ad" placeholder="Escreva aqui sua tarefa..." ></input>
+      <button v-if="field" @click="addTodo" type="button" ><i class="fas fa-plus"></i></button>
+      <br>
+
+      <ul>
+        <li v-for="todo in todos">
+          <button @click="removeTodo(todo.id)">
+            <i class="far fa-check-circle"></i>
+          </button> <del v-if="todo.completed"> {{todo.text}} </del> 
+          <span v-else >
+            {{todo.text}}
+          </span>
+        
+        </li>
+      </ul>
+      
+      
+    </div>
+  </body>
+
+  <script>
+    function Todo(id, text,  completed) {
+      return {
+        id,
+        text,
+        completed
+      }
+    }
+
+    var app = new Vue({
+  el: '#app',
+  data: {
+    field: '',
+    todos: [],
+    todoId: 0
+  },
+  methods: {
+    addTodo: function () {
+      this.todos = [...this.todos, Todo(this.todoId, this.field, false)]
+      this.todoId++
+      this.field = ""
+    },
+    removeTodo: function (id) {
+      this.todos.find((todo) => todo.id == id).completed = true
+    }
+  }
+})
+  </script>
+
 </html>
